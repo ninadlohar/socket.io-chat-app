@@ -16,7 +16,10 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('new user connected')
 
+  /** emits message to everyone */
   socket.emit('newMessage', generateMessage('Admin', 'Welcome To Chat App'))
+  
+  /** emits message to everyone except me */
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New User Joined'))
 
   socket.on('createMessage', (message) => {
