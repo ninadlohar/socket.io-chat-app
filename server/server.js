@@ -22,9 +22,10 @@ io.on('connection', (socket) => {
   /** emits message to everyone except me */
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New User Joined'))
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log(`createdMessage received from client`, message)
     io.emit('newMessage', generateMessage(message.from, message.text))
+    callback('This is from the server.');
     // socket.broadcast.emit('newMessage', { // i am not going to receive msg
     //   from: message.from,
     //   text: message.text,
