@@ -23,14 +23,12 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New User Joined'))
 
   socket.on('createMessage', (message, callback) => {
-    console.log(`createdMessage received from client`, message)
     io.emit('newMessage', generateMessage(message.from, message.text))
     callback('This is from the server.');
-    // socket.broadcast.emit('newMessage', { // i am not going to receive msg
-    //   from: message.from,
-    //   text: message.text,
-    //   createdAt: new Date().getTime()   
-    // })
+  })
+
+  socket.on('createLocationMessage', (coords) => {
+    io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`))
   })
 
   socket.on('disconnect', () => {
